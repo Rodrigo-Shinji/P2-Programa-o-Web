@@ -29,18 +29,18 @@ require_once('conexao.php');
                                 <div class="mb-3">
                                 <label for="txtnome">Mes</label>
                                 <select name="nome_mes" id="nome_mes" class="forma-select">
-                                <option value="janeiro">Janeiro</option>
-                                <option value="fevereiro">Fevereiro</option>
-                                <option value="marco">Março</option>
-                                <option value="abril">Abril</option>
-                                <option value="maio">Maio</option>
-                                <option value="junho">Junho</option>
-                                <option value="julho">Julho</option>
-                                <option value="agosto">Agosto</option>
-                                <option value="setembro">Setembro</option>
-                                <option value="outubro">Outubro</option>
-                                <option value="novembro">Novembro</option>
-                                <option value="dezembro">Dezembro</option>
+                                <option value="Janeiro">Janeiro</option>
+                                <option value="Fevereiro">Fevereiro</option>
+                                <option value="Março">Março</option>
+                                <option value="Abril">Abril</option>
+                                <option value="Maio">Maio</option>
+                                <option value="Junho">Junho</option>
+                                <option value="Julho">Julho</option>
+                                <option value="Agosto">Agosto</option>
+                                <option value="Setembro">Setembro</option>
+                                <option value="Outubro">Outubro</option>
+                                <option value="Novembro">Novembro</option>
+                                <option value="Dezembro">Dezembro</option>
                                 </select>
                                 </div>
 
