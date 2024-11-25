@@ -1,0 +1,111 @@
+<?php
+session_start();
+require_once('conexao.php');
+
+$sql = "SELECT *FROM movimentacoes";
+$movimentacoes = mysqli_query($conn, $sql);
+
+function transformarMeses($meses) {
+    if ($meses == 1) {
+        return "Janeiro";
+}
+    if ($meses == 2) {
+        return "Feveiro";
+    }
+    if ($meses == 3) {
+        return "Março";
+    }
+    if ($meses == 4) {
+        return "Abril";
+    }
+    if ($meses == 5) {
+        return "Maio";
+    }
+    if ($meses == 6) {
+        return "Junho";
+    }
+    if ($meses == 7) {
+        return "Julho";
+    }
+    if ($meses == 8) {
+        return "Agosto";
+    }
+    if ($meses == 9) {
+        return "Setembro";
+    }
+    if ($meses == 11) {
+        return "Outubro";
+    }
+    if ($meses == 12) {
+        return "Novembro";
+    }
+    if ($meses == 13) {
+        return "Dezembro";
+    }
+} 
+
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meses</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h4>Movimentações
+                                <a href="index.php" class="btn btn-primary float-end">Voltar</a>
+                                <a href="criar_movimentacoes.php" class="btn btn-dark"><i class="bi bi-file-earmark-plus-fill"></i></i></a>
+                                
+                            </h4>
+                        </div>
+                    </div>
+
+                        <div class="card-body">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Data</th>
+                                        <th>Tipo</th>
+                                        <th>Descrição</th>
+                                        <th>Valor</th>
+                                        <th>Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach($movimentacoes as $moviment): ?>
+                                    <tr>
+                                        <td><?php echo $moviment['id_movimentacoes'];?></td>
+                                        <td><?php echo transformarMeses($moviment['movement_date'])?></td>
+                                        <td><?php echo $moviment['movement_type'];?></td>
+                                        <td style="max-width: 125px; line-break: auto;"><?php echo $moviment['description'];?></td>
+                                        <td><?php echo $moviment['amount'];?></td>
+                                        <td>
+                                        <a href="edit-movimentacoes.php?id_movimentacoes=<?=$moviment['id_movimentacoes']?>" name="btn-add" class="btn btn-secondary btn-sm"><i class="bi bi-pencil-fill"></i></a>
+                                            <form action="acoes.php" method="POST" class="d-inline">
+                                                        <button onclick="return confirm('Tem certeza que deseja excluir?')" name="deletar_mov" type="submit" value="<?=$moviment['id_movimentacoes']?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

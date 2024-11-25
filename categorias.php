@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 require_once('conexao.php');
@@ -42,7 +41,7 @@ $sistema_financeiro = mysqli_query($conn, $sql);
                         </h4>
                                 <div class="mb-3">
                                 <div class="card-body">
-                            <?php include('mensagens.php'); ?>
+                            <?php include('mensagem.php'); ?>
                                 <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
