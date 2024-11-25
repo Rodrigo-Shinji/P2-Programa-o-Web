@@ -53,10 +53,6 @@ if (isset($_POST['excluir_cat'])){
     exit;
 }
 
-
-session_start();
-require_once('conexao.php');
-
 //Lógica para criação do mês nome de ano do mês//
 if (isset($_POST['Cadastrar_mes'])){
     $nome = trim($_POST['nome_mes']);
