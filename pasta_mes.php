@@ -16,15 +16,15 @@ $movimentacoes = mysqli_query($conn, $sql);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
-    <div class="container mt-4">
+    div class="container mt-4">
         <div class="row">
             <div class="col-md">
                 <div class="card">
                     <div class="card-header">
                         <div>
-                            <h4>Meses
+                            <h4>Movimentações
                                 <a href="index.php" class="btn btn-primary float-end">Voltar</a>
-                                
+                                <a href="criar_movimentacoes.php" class="btn btn-dark"><i class="bi bi-file-earmark-plus-fill"></i></i></a>
                                 
                             </h4>
                         </div>
@@ -48,13 +48,12 @@ $movimentacoes = mysqli_query($conn, $sql);
                                         <td><?php echo $moviment['id_movimentacoes'];?></td>
                                         <td><?php echo date('d/m/Y', strtotime($moviment['movement_date']))?></td>
                                         <td><?php echo $moviment['movement_type'];?></td>
-                                        <td><?php echo $moviment['description'];?></td>
+                                        <td style="max-width: 125px; line-break: auto;"><?php echo $moviment['description'];?></td>
                                         <td><?php echo $moviment['amount'];?></td>
                                         <td>
-                                            <a href="criar_movimentacoes.php" class="btn btn-dark"><i class="bi bi-file-earmark-plus-fill"></i></i></a>
-                                            <a href="">Editar</a>
+                                        <a href="edit-movimentacoes.php?id_movimentacoes=<?=$moviment['id_movimentacoes']?>" name="btn-add" class="btn btn-secondary btn-sm"><i class="bi bi-pencil-fill"></i></a>
                                             <form action="acoes.php" method="POST" class="d-inline">
-                                                        <button onclick="return confirm('Tem certeza que deseja excluir?')" name="deletar" type="submit" value="<?=$mes['']?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                                        <button onclick="return confirm('Tem certeza que deseja excluir?')" name="deletar_mov" type="submit" value="<?=$moviment['id_movimentacoes']?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
                                             </form>
                                         </td>
                                     </tr>
