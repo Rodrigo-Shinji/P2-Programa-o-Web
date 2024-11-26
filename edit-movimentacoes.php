@@ -4,6 +4,9 @@ require_once('conexao.php');
 
 $moviment = [];
 
+$sql = "SELECT nome FROM categorias";
+$cat = $conn->query($sql);
+
 if (!isset($_GET['id_movimentacoes'])) {
     header('Location: pasta_mes.php');
 } else {
@@ -15,52 +18,13 @@ if (!isset($_GET['id_movimentacoes'])) {
     }
 }
 
-function transformarMeses($meses) {
-    if ($meses == 1) {
-        return "Janeiro";
-}
-    if ($meses == 2) {
-        return "Feveiro";
-    }
-    if ($meses == 3) {
-        return "Março";
-    }
-    if ($meses == 4) {
-        return "Abril";
-    }
-    if ($meses == 5) {
-        return "Maio";
-    }
-    if ($meses == 6) {
-        return "Junho";
-    }
-    if ($meses == 7) {
-        return "Julho";
-    }
-    if ($meses == 8) {
-        return "Agosto";
-    }
-    if ($meses == 9) {
-        return "Setembro";
-    }
-    if ($meses == 11) {
-        return "Outubro";
-    }
-    if ($meses == 12) {
-        return "Novembro";
-    }
-    if ($meses == 13) {
-        return "Dezembro";
-    }
-} 
-
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar - Usuários</title>
+    <title>Editar - Movimentações</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
@@ -71,7 +35,7 @@ function transformarMeses($meses) {
                 <div class="card">
                     <div class="card-header">
                         <h4>
-                            Editar usuário <i class="bi bi-person-fill-gear"></i>
+                            Editar Usuário <i class="bi bi-person-fill-gear"></i>
                             <a href="pasta_mes.php" class="btn btn-danger float-end">Voltar</a>
                         </h4>
                     </div>
@@ -100,14 +64,16 @@ function transformarMeses($meses) {
                             </div>
 
                             <div>
-                                <label for="txttipo">Tipo</label>
-                                <input type="tipo" name="txttipo" id="txttipo" value="<?=$moviment['movement_type']?>"  class="form-control" >
-                            </div>
-
-                            <div>
                                 <label for="txtDescricao">Descrição</label>
                                 <input type="text" name="txtDescricao" id="txtDescricao" rows="3" value="<?=$moviment['description']?>" class="form-control">
                             </div>
+
+                            <div>
+                        <select id="txtType" name="txtType">
+                                        <option value="Entrada">Entrada</option>
+                                        <option value="Saída">Saída</option>
+                                    </select>
+                        </div>
 
                             <div>
                                 <label for="txtValor">Valor</label>
@@ -119,7 +85,7 @@ function transformarMeses($meses) {
                         </form>
                         <?php else:?>
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                             Não encontrado
+                             echo "Não encontrado"
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
 
