@@ -2,11 +2,10 @@
 <?php
 session_start();
 require_once('conexao.php');
+$mesId = mysqli_real_escape_string($conn, $_GET['id_meses']);
 
 $sql = "SELECT nome FROM categorias";
 $cat = $conn->query($sql);
-$monthId = mysqli_real_escape_string($conn, $_GET['month_id']);
-
 
 ?>
 <!DOCTYPE html>

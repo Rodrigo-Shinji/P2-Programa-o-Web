@@ -93,13 +93,14 @@ if (isset($_POST['deletar'])) {
 // if para salvar as as informações na tabela movimentações 
 if (isset($_POST['criar_movimentacoes'])) {
 
+    $mesId = trim($_POST['month_id']);
     $data = trim($_POST['txtData']);
     $descricao= trim($_POST['txtDescricao']);
     $valor = trim($_POST['txtValor']);
     $tipo = trim($_POST['txtType']);
     
 
-    $sql = "INSERT INTO movimentacoes (movement_date, movement_type, `description`, amount) VALUES('$data', '$tipo', '$descricao', '$valor')";
+    $sql = "INSERT INTO movimentacoes (movement_date, movement_type, `description`, amount, month_id) VALUES('$data', '$tipo', '$descricao', '$valor', '$mesId')";
 
     mysqli_query($conn, $sql);
 
