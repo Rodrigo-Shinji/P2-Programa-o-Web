@@ -5,44 +5,11 @@ require_once('conexao.php');
 $sql = "SELECT *FROM movimentacoes";
 $movimentacoes = mysqli_query($conn, $sql);
 
-function transformarMeses($meses) {
-    if ($meses == 1) {
-        return "Janeiro";
-}
-    if ($meses == 2) {
-        return "Feveiro";
-    }
-    if ($meses == 3) {
-        return "Março";
-    }
-    if ($meses == 4) {
-        return "Abril";
-    }
-    if ($meses == 5) {
-        return "Maio";
-    }
-    if ($meses == 6) {
-        return "Junho";
-    }
-    if ($meses == 7) {
-        return "Julho";
-    }
-    if ($meses == 8) {
-        return "Agosto";
-    }
-    if ($meses == 9) {
-        return "Setembro";
-    }
-    if ($meses == 11) {
-        return "Outubro";
-    }
-    if ($meses == 12) {
-        return "Novembro";
-    }
-    if ($meses == 13) {
-        return "Dezembro";
-    }
-} 
+
+$mesID = mysqli_real_escape_string($conn, $_GET['id_meses']);
+$sql = "SELECT * FROM movimentacoes mv INNER JOIN meses m on m.id_meses = mv.month_id where m.id_meses = $mesID";
+
+
 
 ?>
 <!DOCTYPE html>
@@ -70,29 +37,30 @@ function transformarMeses($meses) {
                     </div>
 
                         <div class="card-body">
+                        <?php include('mensagem.php'); ?>
                             <table class="table table-bordered table-striped">
                                 <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Data</th>
-                                        <th>Tipo</th>
-                                        <th>Descrição</th>
-                                        <th>Valor</th>
-                                        <th>Ação</th>
-                                    </tr>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Data</th>
+                                    <th>Tipo</th>
+                                    <th>Descrição</th>
+                                    <th>Valor</th>
+                                    <th>Ações</th>
+                                </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach($movimentacoes as $moviment): ?>
                                     <tr>
                                         <td><?php echo $moviment['id_movimentacoes'];?></td>
-                                        <td><?php echo transformarMeses($moviment['movement_date'])?></td>
+                                        <td><?php echo date('d/m/Y', strtotime($moviment['movement_date']))?></td>
                                         <td><?php echo $moviment['movement_type'];?></td>
                                         <td style="max-width: 125px; line-break: auto;"><?php echo $moviment['description'];?></td>
                                         <td><?php echo $moviment['amount'];?></td>
                                         <td>
                                         <a href="edit-movimentacoes.php?id_movimentacoes=<?=$moviment['id_movimentacoes']?>" name="btn-add" class="btn btn-secondary btn-sm"><i class="bi bi-pencil-fill"></i></a>
                                             <form action="acoes.php" method="POST" class="d-inline">
-                                                        <button onclick="return confirm('Tem certeza que deseja excluir?')" name="deletar_mov" type="submit" value="<?=$moviment['id_movimentacoes']?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                                        <button onclick="return confirm('Tem certeza que deseja excluir?')" name="deletar_mov" type="submit" value="<?=$moviment['id_movimentacoes']?>" class="btn btn-danger btn-sm"><i class="bi bi-trash-fill"></i></button>
                                             </form>
                                         </td>
                                     </tr>

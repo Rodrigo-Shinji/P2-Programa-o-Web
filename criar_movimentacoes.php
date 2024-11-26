@@ -3,10 +3,10 @@
 session_start();
 require_once('conexao.php');
 
-$moviment = [];
-
 $sql = "SELECT nome FROM categorias";
 $cat = $conn->query($sql);
+$monthId = mysqli_real_escape_string($conn, $_GET['month_id']);
+
 
 ?>
 <!DOCTYPE html>
@@ -37,6 +37,8 @@ $cat = $conn->query($sql);
             <div class="col-md-12">
                 <div class ="card">
                     <div class="card-header">
+                    <form action="acoes.php" method="POST">
+                        <input type="hidden" name="month_id" value="<?= $mesId ?>">
                         <h4>
                             Movimentações
                             <a href="index.php" class="btn btn-primary float-end">Voltar</a>

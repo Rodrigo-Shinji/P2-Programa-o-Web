@@ -2,19 +2,17 @@
 session_start();
 require_once('conexao.php');
 
-$moviment = [];
+$sis_fin = [];
 
-$sql = "SELECT nome FROM categorias";
-$cat = $conn->query($sql);
 
-if (!isset($_GET['id_movimentacoes'])) {
-    header('Location: pasta_mes.php');
+if (!isset($_GET['id_categoria'])) {
+    header('Location: index.php');
 } else {
-    $movID = mysqli_real_escape_string($conn, $_GET['id_movimentacoes']);
-    $sql = "SELECT * FROM movimentacoes WHERE id_movimentacoes = '{$movID}'";
+    $catID = mysqli_real_escape_string($conn, $_GET['id_categoria']);
+    $sql = "SELECT * FROM categorias WHERE id_categoria = '{$catID}'";
     $query = mysqli_query($conn, $sql);
     if (mysqli_num_rows($query) > 0) {
-        $moviment = mysqli_fetch_array($query);
+        $sis_fin = mysqli_fetch_array($query);
     }
 }
 
@@ -24,7 +22,7 @@ if (!isset($_GET['id_movimentacoes'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar - Movimentações</title>
+    <title>Editar Categoria</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
@@ -35,70 +33,29 @@ if (!isset($_GET['id_movimentacoes'])) {
                 <div class="card">
                     <div class="card-header">
                         <h4>
-                            Editar Usuário <i class="bi bi-person-fill-gear"></i>
-                            <a href="pasta_mes.php" class="btn btn-danger float-end">Voltar</a>
+                            Editar Categoria <i class="bi bi-person-fill-gear"></i>
+                            <a href="categorias.php" class="btn btn-danger float-end">Voltar</a>
                         </h4>
                     </div>
                     <div class="card-body">
                         <?php
-                        if ($moviment) :
+                        if ($sis_fin) :
                         ?>
                         <form action="acoes.php" method="POST">
-                        <input type="hidden" name="mov_id" value="<?=$moviment['id_movimentacoes']?>">
-                                <div class="mb-3">
-                                    <label>Meses</label>
-                                        <select id="meses" name="meses">
-                                            <option value="Janeiro" class="btn btn-secondary btn-sm">Janeiro</option>
-                                            <option value="Fevereiro" class="btn btn-secondary btn-sm">Fevereiro</option>
-                                            <option value="Março" class="btn btn-secondary btn-sm">Março</option>
-                                            <option value="Abril" class="btn btn-secondary btn-sm">Abril</option>
-                                            <option value="Maio" class="btn btn-secondary btn-sm">Maio</option>
-                                            <option value="Junho" class="btn btn-secondary btn-sm">Junho</option>
-                                            <option value="Julho" class="btn btn-secondary btn-sm">Julho</option>
-                                            <option value="Agosto" class="btn btn-secondary btn-sm">Agosto</option>
-                                            <option value="Setembro" class="btn btn-secondary btn-sm">Setembro</option>
-                                            <option value="Outubro" class="btn btn-secondary btn-sm">Outubro</option>
-                                            <option value="Novembro" class="btn btn-secondary btn-sm">Novembro</option>
-                                            <option value="Dezembro" class="btn btn-secondary btn-sm">Dezembro</option>
-                                        </select>
+                            <input type="hidden" name="cat_id" value="<?=$sis_fin['id_categoria']?>">
+                            <div class="mb-3">
+                                <label for="txtNome">Nome</label>
+                                <input type="text" name="txtNome" id="txtNome" value="<?=$sis_fin['nome']?>" class="form-control">
                             </div>
-
-                            <div>
-                        <?php if ($cat->num_rows > 0) {
-                            echo '<select name="categoria" id="categoria">';
-                            while($row = $cat->fetch_assoc()) {
-                                echo '<option value="' . $row['id'] . '">' . $row['nome'] . '</option>';
-                            }
-
-                            echo '</select>';
-                        } else {
-                            echo "Nenhuma categoria encontrada.";
-                        }   ?>
-                        </div>
-
-                            <div>
-                                <label for="txtDescricao">Descrição</label>
-                                <input type="text" name="txtDescricao" id="txtDescricao" rows="3" value="<?=$moviment['description']?>" class="form-control">
-                            </div>
-
-                            <div>
-                        <select id="txtType" name="txtType">
-                                        <option value="Entrada">Entrada</option>
-                                        <option value="Saída">Saída</option>
-                                    </select>
-                        </div>
-
-                            <div>
-                                <label for="txtValor">Valor</label>
-                                <input type="Valor" name="txtValor" id="txtValor" value="<?=$moviment['amount']?>" class="form-control">
-                            </div>
-                            <div>
-                                <button type = "submit" name="editar_movimentacoes" class="btn btn-primary float-end">Salvar</button>
+                            <div class="mb-3">
+                                <button type="submit" name="edit_categoria" class="btn btn-primary float-end">Salvar</button>
                             </div>
                         </form>
-                        <?php else:?>
+                        <?php
+                        else:
+                        ?>
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                             echo "Não encontrado"
+                            categoria não encontrada
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
 

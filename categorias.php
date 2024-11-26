@@ -66,8 +66,8 @@ $sistema_financeiro = mysqli_query($conn, $sql);
                                         </tr>
                                         <tr>
                                     </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
+                                <?php endforeach; ?>
+                            </tbody>
                         </form>
                     </div>
                 </div>

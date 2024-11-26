@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 require_once('conexao.php');
@@ -25,7 +26,7 @@ if (isset($_POST['edit_categoria'])){
 
     if (mysqli_affected_rows($conn) > 0) {
         $_SESSION['message'] = "Categoria alterada com sucesso!";
-        $_SESSION['message'] = 'success';
+        $_SESSION['type'] = 'success'; 
     } else {
         $_SESSION['message'] = "Não foi possível alterar a categoria!";
         $_SESSION['type'] = 'error';
@@ -54,8 +55,6 @@ if (isset($_POST['excluir_cat'])){
 }
 
 
-session_start();
-require_once('conexao.php');
 
 //Lógica para criação do mês nome de ano do mês//
 if (isset($_POST['Cadastrar_mes'])){
@@ -91,7 +90,6 @@ if (isset($_POST['deletar'])) {
 }
 
 
-// if para salvar as as informações na tabela movimentações 
 // if para salvar as as informações na tabela movimentações 
 if (isset($_POST['criar_movimentacoes'])) {
 
