@@ -2,8 +2,10 @@
 <?php
 session_start();
 require_once('conexao.php');
+$mesId = mysqli_real_escape_string($conn, $_GET['id_meses']);
 
-$moviment = [];
+$sql = "SELECT nome FROM categorias";
+$cat = $conn->query($sql);
 
 ?>
 <!DOCTYPE html>
@@ -34,6 +36,8 @@ $moviment = [];
             <div class="col-md-12">
                 <div class ="card">
                     <div class="card-header">
+                    <form action="acoes.php" method="POST">
+                        <input type="hidden" name="month_id" value="<?= $mesId ?>">
                         <h4>
                             Movimentações
                             <a href="index.php" class="btn btn-primary float-end">Voltar</a>
@@ -46,18 +50,30 @@ $moviment = [];
                                 <label for="txtData">Data</label>
                                 <input type="date" name="txtData" id="txtData" class="form-control">
                         </div>
-
+                        
                         <div>
-                            <label for="txtCategoria">Categoria</label>
-                                <select name="categoria" id="categoria">
-                                    <option value="entrada" class="btn btn-secondary btn-sm">Entrada</option>
-                                    <option value="saida" class="btn btn-secondary btn-sm">Saida</option>
-                                </select>   
+                        <?php if ($cat->num_rows > 0) {
+                            echo '<select name="categoria" id="categoria">';
+                            while($row = $cat->fetch_assoc()) {
+                                echo '<option value="' . $row['id'] . '">' . $row['nome'] . '</option>';
+                            }
+
+                            echo '</select>';
+                        } else {
+                            echo "Nenhuma categoria encontrada.";
+                        }   ?>
                         </div>
 
                         <div>
                             <label for="txtDescricao">Descrição</label>
                             <input type="text" name="txtDescricao" id="txtDescricao" class="form-control">
+                        </div>
+
+                        <div>
+                        <select id="txtType" name="txtType">
+                                        <option value="Entrada">Entrada</option>
+                                        <option value="Saída">Saída</option>
+                                    </select>
                         </div>
 
                         <div>

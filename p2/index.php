@@ -2,8 +2,8 @@
 session_start();
 require 'conexao.php';
 
-$sql = "SELECT * FROM movimentacoes order by data asc";
-$movimentacoes = mysqli_query($conn, $sql);
+$sql = "SELECT * FROM meses";
+$meses = mysqli_query($conn, $sql);
 
 ?>
 
@@ -37,10 +37,6 @@ $movimentacoes = mysqli_query($conn, $sql);
                             <thead>
                                 <td>
                                     <a href="categorias.php" class="btn btn-primary btn-sm"></i>CATEGORIAS</a>
-                                    <a href="pasta_mes.php" class="btn btn-primary btn-sm"></i>MESES</a>
-                                </td>
-                                <td>
-                                    <a href="adicionar-categoria.php" class="btn btn-primary btn-sm"></i>CRIAR CATEGORIAS</a>
                                     <a href="cadastrar_meses.php" class="btn btn-primary btn-sm"></i>CRIAR MESES</a>
                                 </td>
                             </thead>
@@ -58,21 +54,21 @@ $movimentacoes = mysqli_query($conn, $sql);
                                         </div class="card-body">
                                         <?php include('mensagem.php'); ?>
                                         <div class="row">
-                                            <?php foreach ($movimentacoes as $movimentacao): ?>
+                                            <?php foreach ($meses as $mes): ?>
                                                 <!-- Container com as "pastas" dos meses -->
                                                 <div class="col-md-3 mb-3">
                                                     <div class="card text-center">
                                                         <div class="card-body" class="mb-3">
                                                             <div class="card-header">
-                                                                <h5 class="card-title"><?php echo ($movimentacao['amount']); ?></h5>
+                                                                <h5 class="card-title"><?php echo ($mes['nome']); ?></h5>
                                                             </div>
                                                             <div class="d-flex justify-content-start align-items-end">
-                                                                <p class="card-text"><?php echo ($movimentacao['data']); ?></p>
+                                                                <p class="card-text"><?php echo ($mes['ano']); ?></p>
                                                             </div>
                                                             <div class="float-end">
-                                                                <a href="pasta_mes.php" class="btn btn-dark"><i class="bi bi-card-text"></i></a>
+                                                            <a href="pasta_mes.php?id_meses=<?=$mes['id_meses']?>" class="btn btn-dark"><i class="bi bi-card-text"></i></i></a>
                                                                 <form action="acoes.php" method="POST" class="d-inline">
-                                                                    <button onclick="return confirm('Tem certeza que deseja excluir?')" name="deletar" type="submit" value="<?= $movimentacao['id_movimentacoes'] ?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                                                    <button onclick="return confirm('Tem certeza que deseja excluir?')" name="deletar" type="submit" value="<?= $movimentacao['id_meses'] ?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
                                                                 </form>
                                                             </div>
                                                         </div>

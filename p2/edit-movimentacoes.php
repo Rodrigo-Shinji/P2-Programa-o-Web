@@ -4,6 +4,9 @@ require_once('conexao.php');
 
 $moviment = [];
 
+$sql = "SELECT nome FROM categorias";
+$cat = $conn->query($sql);
+
 if (!isset($_GET['id_movimentacoes'])) {
     header('Location: pasta_mes.php');
 } else {
@@ -61,17 +64,16 @@ if (!isset($_GET['id_movimentacoes'])) {
                             </div>
 
                             <div>
-                                <label for="txtCategoria">Categoria</label>
-                                    <select name="categoria" id="categoria">
-                                        <option value="entrada" class="btn btn-secondary btn-sm" <?= $moviment['categorias'] == "entrada" ? 'selected' : '' ?>>Entrada</option>
-                                        <option value="saida" class="btn btn-secondary btn-sm" <?= $moviment['categorias'] == "saida" ? 'selected' : '' ?>>Saida</option>
-                                    </select>
-                            </div>
-
-                            <div>
                                 <label for="txtDescricao">Descrição</label>
                                 <input type="text" name="txtDescricao" id="txtDescricao" rows="3" value="<?=$moviment['description']?>" class="form-control">
                             </div>
+
+                            <div>
+                        <select id="txtType" name="txtType">
+                                        <option value="Entrada">Entrada</option>
+                                        <option value="Saída">Saída</option>
+                                    </select>
+                        </div>
 
                             <div>
                                 <label for="txtValor">Valor</label>

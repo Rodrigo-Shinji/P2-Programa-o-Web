@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 require_once('conexao.php');
@@ -92,13 +93,14 @@ if (isset($_POST['deletar'])) {
 // if para salvar as as informações na tabela movimentações 
 if (isset($_POST['criar_movimentacoes'])) {
 
+    $mesId = trim($_POST['month_id']);
     $data = trim($_POST['txtData']);
-    $categoria = trim($_POST['txtCategoria']);
     $descricao= trim($_POST['txtDescricao']);
     $valor = trim($_POST['txtValor']);
+    $tipo = trim($_POST['txtType']);
     
 
-    $sql = "INSERT INTO movimentacoes (movement_date, movement_type, `description`, amount) VALUES('$data', '$categoria', '$descricao', '$valor')";
+    $sql = "INSERT INTO movimentacoes (movement_date, movement_type, `description`, amount, month_id) VALUES('$data', '$tipo', '$descricao', '$valor', '$mesId')";
 
     mysqli_query($conn, $sql);
 
@@ -114,8 +116,9 @@ if (isset($_POST['editar_movimentacoes'])){
     $categoria = mysqli_real_escape_string($conn, $_POST['txtCategoria']);
     $descricao= mysqli_real_escape_string($conn, $_POST['txtDescricao']);
     $valor = mysqli_real_escape_string($conn, $_POST['txtValor']);
+    $tipo = mysqli_real_escape_string($conn, $_POST['txtType']);
 
-    $sql = "UPDATE movimentacoes SET movement_date = '{$meses}', movement_type = '{$categoria}', `description` = '{$descricao}', amount = '{$valor}'";
+    $sql = "UPDATE movimentacoes SET movement_date = '{$meses}', movement_type = '{$tipo}', `description` = '{$descricao}', amount = '{$valor}'";
 
     $sql .= "WHERE id_movimentacoes = '{$movID}'";
 

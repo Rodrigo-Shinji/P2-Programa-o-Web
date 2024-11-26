@@ -2,7 +2,22 @@
 session_start();
 require_once('conexao.php');
 
-$sql = "SELECT *FROM movimentacoes";
+$mesId = mysqli_real_escape_string($conn, $_GET['id_meses']);
+echo $mesId;
+$sql = "SELECT 
+            mv.id_movimentacoes, 
+            c.nome AS categoria,
+            mv.description,
+            m.nome,
+            m.ano,
+            mv.movement_type AS tipo,
+            mv.amount,
+            mv.movement_date 
+        FROM movimentacoes mv
+        INNER JOIN categorias c ON mv.category_id = c.id_categoria
+        INNER JOIN meses m ON mv.month_id = m.id_meses
+        WHERE mv.month_id = '$mesId'";
+
 $movimentacoes = mysqli_query($conn, $sql);
 
 ?>
@@ -24,43 +39,46 @@ $movimentacoes = mysqli_query($conn, $sql);
                         <div>
                             <h4>Movimentações
                                 <a href="index.php" class="btn btn-primary float-end">Voltar</a>
-                                <a href="criar_movimentacoes.php" class="btn btn-dark"><i class="bi bi-file-earmark-plus-fill"></i></i></a>
-                                
-                            </h4>
-                        </div>
-                    </div>
-
-                        <div class="card-body">
-                        <?php include('mensagem.php'); ?>
-                            <table class="table table-bordered table-striped">
-                                <thead>
+                                <a href="criar_movimentacoes.php?id_meses=<?=$mesId?>" class="btn btn-dark"><i class="bi bi-file-earmark-plus-fill"></i></i></a>
+                                <table class="table table-hover table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Categoria</th>
+                                    <th>Descrição</th>
+                                    <th>Mês</th>
+                                    <th>Data</th>
+                                    <th>Valor</th>
+                                    <th>Transação</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($movimentacoes as $mov): ?>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Data</th>
-                                        <th>Tipo</th>
-                                        <th>Descrição</th>
-                                        <th>Valor</th>
-                                        <th>Ação</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach($movimentacoes as $moviment): ?>
-                                    <tr>
-                                        <td><?php echo $moviment['id_movimentacoes'];?></td>
-                                        <td><?php echo date('d/m/Y', strtotime($moviment['movement_date']))?></td>
-                                        <td><?php echo $moviment['movement_type'];?></td>
-                                        <td style="max-width: 125px; line-break: auto;"><?php echo $moviment['description'];?></td>
-                                        <td><?php echo $moviment['amount'];?></td>
+                                        <td><?php echo $mov['id_movimentacoes']; ?></td>
+                                        <td><?php echo $mov['categoria']; ?></td>
+                                        <td><?php echo $mov['description']; ?></td>
+                                        <td><?php echo $mov['nome']; ?></td>
+                                        <td><?php echo $mov['movement_date']; ?></td>
+                                        <td><?php echo $mov['amount']; ?></td>
+                                        <td><?php echo $mov['tipo']; ?></td>
                                         <td>
-                                        <a href="edit-movimentacoes.php?id_movimentacoes=<?=$moviment['id_movimentacoes']?>" name="btn-add" class="btn btn-secondary btn-sm"><i class="bi bi-pencil-fill"></i></a>
+                                            <a href="editar_movimentacoes.php?id=<?= $mov['id_movimentacoes'] ?>" class="btn btn-secondary btn-sm"><i class="bi bi-pencil-fill"></i></a>
                                             <form action="acoes.php" method="POST" class="d-inline">
-                                                        <button onclick="return confirm('Tem certeza que deseja excluir?')" name="deletar_mov" type="submit" value="<?=$moviment['id_movimentacoes']?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                                <input type="hidden" name="deletar_mov" value="<?=$mesId?>">
+                                                <button onclick="return confirm('Tem certeza que deseja excluir?')" name="deletar_mov" type="submit" value="<?= $mov['id_movimentacoes'] ?>" class="btn btn-danger btn-sm"><i class="bi bi-trash-fill"></i></button>
                                             </form>
                                         </td>
                                     </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                            </h4>
+                        </div>
+                    </div>
+                        <div class="card-body">
+                        <?php include('mensagem.php'); ?>
                         </div>
                 </div>
             </div>
