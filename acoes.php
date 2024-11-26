@@ -114,9 +114,10 @@ if (isset($_POST['criar_movimentacoes'])) {
 if (isset($_POST['editar_movimentacoes'])){
     $movID= mysqli_real_escape_string($conn, $_POST['mov_id']);
     $meses = mysqli_real_escape_string($conn, $_POST['txtMeses']);
-    $tipo = mysqli_real_escape_string($conn, $_POST['txttipo']);
+    $categoria = mysqli_real_escape_string($conn, $_POST['txtCategoria']);
     $descricao= mysqli_real_escape_string($conn, $_POST['txtDescricao']);
     $valor = mysqli_real_escape_string($conn, $_POST['txtValor']);
+    $tipo = mysqli_real_escape_string($conn, $_POST['txtType']);
 
     $sql = "UPDATE movimentacoes SET movement_date = '{$meses}', movement_type = '{$tipo}', `description` = '{$descricao}', amount = '{$valor}'";
 
@@ -127,7 +128,8 @@ if (isset($_POST['editar_movimentacoes'])){
     if (mysqli_affected_rows($conn) > 0) {
         $_SESSION['message'] = "Categoria alterada com sucesso!";
         $_SESSION['message'] = 'success';
-    } else {
+    } 
+    if (mysqli_affected_rows($conn) <    0){
         $_SESSION['message'] = "Não foi possível alterar a categoria!";
         $_SESSION['type'] = 'error';
     }
