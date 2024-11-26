@@ -1,47 +1,12 @@
+
 <?php
 session_start();
-
-function transformarMeses($meses) {
-    if ($meses == 1) {
-        return "Janeiro";
-}
-    if ($meses == 2) {
-        return "Feveiro";
-    }
-    if ($meses == 3) {
-        return "Março";
-    }
-    if ($meses == 4) {
-        return "Abril";
-    }
-    if ($meses == 5) {
-        return "Maio";
-    }
-    if ($meses == 6) {
-        return "Junho";
-    }
-    if ($meses == 7) {
-        return "Julho";
-    }
-    if ($meses == 8) {
-        return "Agosto";
-    }
-    if ($meses == 9) {
-        return "Setembro";
-    }
-    if ($meses == 11) {
-        return "Outubro";
-    }
-    if ($meses == 12) {
-        return "Novembro";
-    }
-    if ($meses == 13) {
-        return "Dezembro";
-    }
-} 
-
-
 require_once('conexao.php');
+
+$moviment = [];
+
+$sql = "SELECT nome FROM categorias";
+$cat = $conn->query($sql);
 
 ?>
 <!DOCTYPE html>
@@ -52,6 +17,19 @@ require_once('conexao.php');
     <title>Meses</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script>
+        window.onload = function(){
+            var dropdown = document.getElementById("example");
+            var textbox = document.getElementById("textbox");
+        dropdown.addEventListener("change", function() {
+            if(dropdown.value == 7){
+                textbox.style.display = "block";
+            }else{
+                textbox.style.display = "none";
+                }
+            });
+        }
+</script>
 </head>
 <body>
     <div class="container mt-4">
@@ -68,31 +46,33 @@ require_once('conexao.php');
                         <form action="acoes.php" method="POST">
 
                         <div class="mb-3">
-                                <label>Meses</label>
-                                    <select id="meses" name="meses">
-                                        <option value="Janeiro" class="btn btn-secondary btn-sm">Janeiro</option>
-                                        <option value="Fevereiro" class="btn btn-secondary btn-sm">Fevereiro</option>
-                                        <option value="Março" class="btn btn-secondary btn-sm">Março</option>
-                                        <option value="Abril" class="btn btn-secondary btn-sm">Abril</option>
-                                        <option value="Maio" class="btn btn-secondary btn-sm">Maio</option>
-                                        <option value="Junho" class="btn btn-secondary btn-sm">Junho</option>
-                                        <option value="Julho" class="btn btn-secondary btn-sm">Julho</option>
-                                        <option value="Agosto" class="btn btn-secondary btn-sm">Agosto</option>
-                                        <option value="Setembro" class="btn btn-secondary btn-sm">Setembro</option>
-                                        <option value="Outubro" class="btn btn-secondary btn-sm">Outubro</option>
-                                        <option value="Novembro" class="btn btn-secondary btn-sm">Novembro</option>
-                                        <option value="Dezembro" class="btn btn-secondary btn-sm">Dezembro</option>
-                                    </select>
-
-                            </div>
+                                <label for="txtData">Data</label>
+                                <input type="date" name="txtData" id="txtData" class="form-control">
+                        </div>
+                        
                         <div>
-                            <label for="txttipo">Tipo</label>
-                            <input type="tipo" name="txttipo" id="txttipo" class="form-control">
+                        <?php if ($cat->num_rows > 0) {
+                            echo '<select name="categoria" id="categoria">';
+                            while($row = $cat->fetch_assoc()) {
+                                echo '<option value="' . $row['id'] . '">' . $row['nome'] . '</option>';
+                            }
+
+                            echo '</select>';
+                        } else {
+                            echo "Nenhuma categoria encontrada.";
+                        }   ?>
                         </div>
 
                         <div>
                             <label for="txtDescricao">Descrição</label>
                             <input type="text" name="txtDescricao" id="txtDescricao" class="form-control">
+                        </div>
+
+                        <div>
+                        <select id="txtType" name="txtType">
+                                        <option value="Entrada">Entrada</option>
+                                        <option value="Saída">Saída</option>
+                                    </select>
                         </div>
 
                         <div>
