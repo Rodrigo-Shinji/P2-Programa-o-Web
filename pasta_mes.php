@@ -3,7 +3,6 @@ session_start();
 require_once('conexao.php');
 
 $mesId = mysqli_real_escape_string($conn, $_GET['id_meses']);
-echo $mesId;
 $sql = "SELECT 
             mv.id_movimentacoes, 
             c.nome AS categoria,
@@ -19,6 +18,26 @@ $sql = "SELECT
         WHERE mv.month_id = '$mesId'";
 
 $movimentacoes = mysqli_query($conn, $sql);
+
+$sql_entrada = "SELECT SUM(amount) as value from movimentacoes WHERE month_id = '$mesId' AND movement_type = 'Entrada'";
+$sql_saida = "SELECT SUM(amount) as value from movimentacoes WHERE month_id = '$mesId' AND movement_type = 'Saída'";
+
+$total_entrada = mysqli_query($conn, $sql_entrada);
+$total_saida = mysqli_query($conn, $sql_saida);
+
+$valor_saida = 0;
+$valor_entrada = 0;
+
+for ($i = 0; $i < mysqli_num_rows($total_saida); $i++) {
+    $row = mysqli_fetch_assoc($total_saida);
+    $valor_saida += $row['value'];
+}
+for ($i = 0; $i < mysqli_num_rows($total_entrada); $i++) {
+    $row = mysqli_fetch_assoc($total_entrada);
+    $valor_entrada += $row['value'];
+}
+
+$amount = $valor_entrada - $valor_saida;
 
 ?>
 <!DOCTYPE html>
@@ -37,8 +56,8 @@ $movimentacoes = mysqli_query($conn, $sql);
                 <div class="card">
                     <div class="card-header">
                         <div>
-                            <h4>Movimentações
-                                <a href="index.php" class="btn btn-primary float-end">Voltar</a>
+                            <h4><strong>Movimentações</strong>
+                                <a href="index.php" class="btn btn-primary float-end my-2">Voltar</a>
                                 <a href="criar_movimentacoes.php?id_meses=<?=$mesId?>" class="btn btn-dark"><i class="bi bi-file-earmark-plus-fill"></i></i></a>
                                 <table class="table table-hover table-bordered">
                             <thead class="table-light">
@@ -79,6 +98,16 @@ $movimentacoes = mysqli_query($conn, $sql);
                     </div>
                         <div class="card-body">
                         <?php include('mensagem.php'); ?>
+                        <div>
+                            <h5 class="mt-1 mb-4 text-<?php if ($amount > 0) {
+                                                            echo "success";
+                                                        } elseif ($amount == 0) {
+                                                            echo "warning";
+                                                        } else echo "danger"; ?>">Saldo: R$ <?= number_format(
+                                                                                                $amount,
+                                                                                                2
+                                                                                            ); ?></h5>
+                        </div>
                         </div>
                 </div>
             </div>

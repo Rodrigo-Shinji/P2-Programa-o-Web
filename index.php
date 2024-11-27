@@ -5,6 +5,16 @@ require 'conexao.php';
 $sql = "SELECT * FROM meses";
 $meses = mysqli_query($conn, $sql);
 
+$sql_amount_meses = "SELECT 
+                        m.id_meses AS monthId,
+                        COALESCE(SUM(CASE WHEN mv.movement_type = 'Entrada' THEN mv.amount ELSE 0 END), 0) 
+                        - COALESCE(SUM(CASE WHEN mv.movement_type = 'Saída' THEN mv.amount ELSE 0 END), 0) AS amount
+                    FROM meses m
+                    INNER JOIN movimentacoes mv ON mv.month_id = m.id_meses
+                    GROUP BY m.id_meses;";
+
+$amount_meses = mysqli_query($conn, $sql_amount_meses);
+
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +38,6 @@ $meses = mysqli_query($conn, $sql);
                     <div class="card-header">
                         <h4>
                             Gerenciamento de Finanças <i class="bi bi-bar-chart-fill"></i>
-                            <a href="adicionar-categoria.php" class="btn btn-primary float-end"><i class="bi bi-plus"></i></a>
                         </h4>
                     </div>
                     <div class="card-body">
@@ -48,7 +57,6 @@ $meses = mysqli_query($conn, $sql);
                                         <div class="card-header">
                                             <div>
                                                 <h4>Meses
-                                                    <a href="Cadastrar_meses.php"><i class="bi bi-plus-square float-end"></i></a>
                                                 </h4>
                                             </div>
                                         </div class="card-body">
@@ -61,6 +69,17 @@ $meses = mysqli_query($conn, $sql);
                                                         <div class="card-body" class="mb-3">
                                                             <div class="card-header">
                                                                 <h5 class="card-title"><?php echo ($mes['nome']); ?></h5>
+                                                                <?php foreach ($amount_meses as $amount):
+                                                    if ($amount['monthId'] == $mes['id_meses']) {
+                                                        if ($amount['amount'] > 0) {
+                                                            echo "<h5 class='text-success' style='height: fit-content; margin: 0;'>R$ " . number_format($amount['amount'], 2) . "</h5>";
+                                                        } else if ($amount['amount'] < 0) {
+                                                            echo "<h5 class='text-danger' style='height: fit-content; margin: 0;'>R$ " . number_format($amount['amount'], 2) . "</h5>";
+                                                        } else {
+                                                            echo "<h5 class='text-warning' style='height: fit-content; margin: 0;'>R$ 0.00</h5>";
+                                                        }
+                                                    }
+                                                endforeach ?>
                                                             </div>
                                                             <div class="d-flex justify-content-start align-items-end">
                                                                 <p class="card-text"><?php echo ($mes['ano']); ?></p>
