@@ -4,6 +4,7 @@ require_once('conexao.php');
 
 $sis_fin = [];
 
+
 if (!isset($_GET['id_categoria'])) {
     header('Location: index.php');
 } else {

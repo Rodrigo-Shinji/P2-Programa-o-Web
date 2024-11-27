@@ -1,6 +1,8 @@
-
 <?php
 session_start();
+
+$meses = [];
+
 require_once('conexao.php');
 
 ?>
@@ -28,7 +30,7 @@ require_once('conexao.php');
                         <form action="acoes.php" method="POST">
                                 <div class="mb-3">
                                 <label for="txtnome">Mes</label>
-                                <select name="nome_mes" id="nome_mes" class="forma-select">
+                                <select name="nome_mes" id="nome_mes" class="form-select">
                                 <option value="Janeiro">Janeiro</option>
                                 <option value="Fevereiro">Fevereiro</option>
                                 <option value="Março">Março</option>

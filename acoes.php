@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 require_once('conexao.php');
@@ -25,7 +26,7 @@ if (isset($_POST['edit_categoria'])){
 
     if (mysqli_affected_rows($conn) > 0) {
         $_SESSION['message'] = "Categoria alterada com sucesso!";
-        $_SESSION['message'] = 'success';
+        $_SESSION['type'] = 'success'; 
     } else {
         $_SESSION['message'] = "Não foi possível alterar a categoria!";
         $_SESSION['type'] = 'error';
@@ -42,16 +43,18 @@ if (isset($_POST['excluir_cat'])){
     mysqli_query($conn, $sql);
 
     if (mysqli_affected_rows($conn) > 0) {
-        $_SESSION['message'] = "Tarefa excluído com sucesso!";
+        $_SESSION['message'] = "Categoria excluída com sucesso!";
         $_SESSION['type'] = 'success';
     } else {
-        $_SESSION['message'] = "Não foi possível excluir a tarefa!";
+        $_SESSION['message'] = "Não foi possível excluir a categoria!";
         $_SESSION['type'] = 'error';
     }
 
     header('Location: categorias.php');
     exit;
 }
+
+
 
 //Lógica para criação do mês nome de ano do mês//
 if (isset($_POST['Cadastrar_mes'])){
@@ -75,7 +78,7 @@ if (isset($_POST['deletar'])) {
     mysqli_query($conn, $sql);
 
     if (mysqli_affected_rows($conn) > 0) {
-        $_SESSION['message'] = "{$mesId}";
+        $_SESSION['message'] = "Mês deletado com sucesso!";
         $_SESSION['type'] = 'success';
     } else {
         $_SESSION['message'] = "Não foi possível excluir";
@@ -90,45 +93,53 @@ if (isset($_POST['deletar'])) {
 // if para salvar as as informações na tabela movimentações 
 if (isset($_POST['criar_movimentacoes'])) {
 
+    $categoria = trim($_POST['txtCategory']);
+    $mesId = trim($_POST['month_id']);
     $data = trim($_POST['txtData']);
-    $tipo = trim($_POST['txttipo']);
     $descricao= trim($_POST['txtDescricao']);
     $valor = trim($_POST['txtValor']);
+    $tipo = trim($_POST['txtType']);
     
 
-    $sql = "INSERT INTO movimentacoes (movement_date, movement_type, description, amount) VALUES('$data', '$tipo', '$descricao', '$valor')";
-
+    $sql = "INSERT INTO movimentacoes (movement_date, movement_type, `description`, amount, month_id, category_id) VALUES('$data', '$tipo', '$descricao', '$valor', '$mesId', '$categoria')";
     mysqli_query($conn, $sql);
 
-    header('Location: index.php');
+    header("Location: pasta_mes.php?id_meses=$mesId");
     exit();
 }
 
 
 
-if (isset($_POST['editar_movimentacoes'])){
-    $movID= mysqli_real_escape_string($conn, $_POST['mov_id']);
-    $data = mysqli_real_escape_string($conn, $_POST['txtData']);
-    $tipo = mysqli_real_escape_string($conn, $_POST['txttipo']);
-    $descricao= mysqli_real_escape_string($conn, $_POST['txtDescricao']);
-    $valor = mysqli_real_escape_string($conn, $_POST['txtValor']);
+if (isset($_POST['edit_mov'])) {
+    $movId = mysqli_real_escape_string($conn, $_POST['mov_id']);
+    $mesId = mysqli_real_escape_string($conn, $_POST['month_id']);
+    $desc = mysqli_real_escape_string($conn, $_POST['txtDescription']);
+    $catId = mysqli_real_escape_string($conn, $_POST['txtCategory']);
+    $data = mysqli_real_escape_string($conn, $_POST['txtDate']);
+    $value = mysqli_real_escape_string($conn, $_POST['txtValue']);
+    $tipo = mysqli_real_escape_string($conn, $_POST['txtTransaction']);
 
-    $sql = "UPDATE movimentacoes SET movement_date = '{$data}', movement_type = '{$tipo}', description = '{$descricao}', amount = '{$valor}'";
-
-    $sql .= "WHERE id_movimentacoes = '{$movID}'";
+    $sql = "UPDATE movimentacoes SET movement_type = '{$tipo}', 
+                                   description = '{$desc}',
+                                   amount = '{$value}',
+                                   movement_date = '{$data}',
+                                   category_id = '{$catId}',
+                                   month_id = '{$mesId}'
+                                   WHERE id_movimentacoes = '{$movId}'";
 
     mysqli_query($conn, $sql);
 
     if (mysqli_affected_rows($conn) > 0) {
-        $_SESSION['message'] = "Categoria alterada com sucesso!";
+        $_SESSION['message'] = "Movimentação alterada com sucesso!";
         $_SESSION['message'] = 'success';
-    } else {
-        $_SESSION['message'] = "Não foi possível alterar a categoria!";
+    } 
+    if (mysqli_affected_rows($conn) <    0){
+        $_SESSION['message'] = "Não foi possível alterar a movimentação!";
         $_SESSION['type'] = 'error';
     }
 
-    header('Location: pasta_mes.php');
-    exit;
+    header("Location: pasta_mes.php?id_meses=$mesId");
+    exit();
 }
 
 if (isset($_POST['deletar_mov'])){
@@ -138,14 +149,14 @@ if (isset($_POST['deletar_mov'])){
     mysqli_query($conn, $sql);
 
     if (mysqli_affected_rows($conn) > 0) {
-        $_SESSION['message'] = "Tarefa excluído com sucesso!";
+        $_SESSION['message'] = "Movimentaçaõ excluída com sucesso!";
         $_SESSION['type'] = 'success';
     } else {
-        $_SESSION['message'] = "Não foi possível excluir a tarefa!";
+        $_SESSION['message'] = "Não foi possível excluir a movimentação!";
         $_SESSION['type'] = 'error';
     }
 
-    header('Location: pasta_mes.php');
-    exit;
+    header("Location: pasta_mes.php?id_meses=$mesId");
+    exit();
 }
 ?>

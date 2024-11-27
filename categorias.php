@@ -1,24 +1,9 @@
-
 <?php
 session_start();
 require_once('conexao.php');
 
 $sql = "SELECT * FROM categorias";
 $sistema_financeiro = mysqli_query($conn, $sql);
-
-//$sql = "SELECT SUM(valor) AS total FROM categorias";
-//$result = mysqli_query($conn, $sql);
-
-//function ValorTotal($result) {
-    //if ($result) {
-      //  $val = mysqli_fetch_assoc($result);
-       // return $val['total'];
-    //} else {
-    //    return 0;
-    //}
-//}
-
-//$total = ValorTotal($result);
 ?>
 
 <!DOCTYPE html>
@@ -37,12 +22,12 @@ $sistema_financeiro = mysqli_query($conn, $sql);
                 <div class ="card">
                     <div class="card-header">
                         <h4>Categorias
-                            <a href="index.php" class="btn btn-danger float-end">Voltar</a>
-                            <a href="adicionar-categoria.php" class="btn btn-primary float-end mr-1">Adicionar</a>
+                            <a href="index.php" class="btn btn-danger float-end mx-2">Voltar</a>
+                            <a href="adicionar-categoria.php" class="btn btn-primary float-end mx-2">Adicionar</a>
                         </h4>
                                 <div class="mb-3">
                                 <div class="card-body">
-                            <?php include('mensagens.php'); ?>
+                            <?php include('mensagem.php'); ?>
                                 <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -50,7 +35,6 @@ $sistema_financeiro = mysqli_query($conn, $sql);
                                     <th>Nome</th>
                                     <th>Ações</th>
                                 </tr>
-                                <!-- fazer a soma de todos valores das categorias <h3>R$<?php echo number_format($total, 2, ',', '.'); ?></h3> -->
                             </thead>
                             <tbody>
                                 <tr>
@@ -67,8 +51,8 @@ $sistema_financeiro = mysqli_query($conn, $sql);
                                         </tr>
                                         <tr>
                                     </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
+                                <?php endforeach; ?>
+                            </tbody>
                         </form>
                     </div>
                 </div>
