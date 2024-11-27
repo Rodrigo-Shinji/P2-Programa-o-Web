@@ -3,6 +3,7 @@ session_start();
 require_once('conexao.php');
 
 $mesId = mysqli_real_escape_string($conn, $_GET['id_meses']);
+
 $sql = "SELECT 
             mv.id_movimentacoes, 
             c.nome AS categoria,
@@ -61,6 +62,7 @@ $amount = $valor_entrada - $valor_saida;
                                 <a href="criar_movimentacoes.php?id_meses=<?=$mesId?>" class="btn btn-dark"><i class="bi bi-file-earmark-plus-fill"></i></i></a>
                                 <table class="table table-hover table-bordered">
                             <thead class="table-light">
+                            <?php include('mensagem.php'); ?>
                                 <tr>
                                     <th>Id</th>
                                     <th>Categoria</th>
@@ -83,8 +85,7 @@ $amount = $valor_entrada - $valor_saida;
                                         <td><?php echo $mov['amount']; ?></td>
                                         <td><?php echo $mov['tipo']; ?></td>
                                         <td>
-                                            <a href="editar_movimentacoes.php?id=<?= $mov['id_movimentacoes'] ?>" class="btn btn-secondary btn-sm"><i class="bi bi-pencil-fill"></i></a>
-                                            <form action="acoes.php" method="POST" class="d-inline">
+                                        <a href="edit-movimentacoes.php?id=<?= $mov['id_movimentacoes'] ?>" class="btn btn-secondary btn-sm"><i class="bi bi-pencil-fill"></i></a>                                            <form action="acoes.php" method="POST" class="d-inline">
                                                 <input type="hidden" name="deletar_mov" value="<?=$mesId?>">
                                                 <button onclick="return confirm('Tem certeza que deseja excluir?')" name="deletar_mov" type="submit" value="<?= $mov['id_movimentacoes'] ?>" class="btn btn-danger btn-sm"><i class="bi bi-trash-fill"></i></button>
                                             </form>
@@ -97,7 +98,6 @@ $amount = $valor_entrada - $valor_saida;
                         </div>
                     </div>
                         <div class="card-body">
-                        <?php include('mensagem.php'); ?>
                         <div>
                             <h5 class="mt-1 mb-4 text-<?php if ($amount > 0) {
                                                             echo "success";

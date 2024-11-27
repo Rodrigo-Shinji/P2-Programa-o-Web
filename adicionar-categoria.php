@@ -29,7 +29,7 @@ require_once('conexao.php');
                             <input type="text" name="txtNome" id="txtNome" class="form-control">
                         </div>
                         <div class="mb-3">
-                            <button type="subtmit" name="create_categoria" class="btn btn-primary float-end">Criar</button>
+                            <button type="subtmit" name="create_categoria" class="btn btn-primary float-end my-2">Criar</button>
                         </div>
                     </form>
                 </div>

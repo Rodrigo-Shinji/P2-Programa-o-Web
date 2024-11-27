@@ -87,7 +87,7 @@ $amount_meses = mysqli_query($conn, $sql_amount_meses);
                                                             <div class="float-end">
                                                             <a href="pasta_mes.php?id_meses=<?=$mes['id_meses']?>" class="btn btn-dark"><i class="bi bi-card-text"></i></i></a>
                                                                 <form action="acoes.php" method="POST" class="d-inline">
-                                                                    <button onclick="return confirm('Tem certeza que deseja excluir?')" name="deletar" type="submit" value="<?= $movimentacao['id_meses'] ?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                                                    <button onclick="return confirm('Tem certeza que deseja excluir?')" name="deletar" type="submit" value="<?= $mes['id_meses'] ?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
                                                                 </form>
                                                             </div>
                                                         </div>
