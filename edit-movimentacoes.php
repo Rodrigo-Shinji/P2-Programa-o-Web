@@ -52,7 +52,7 @@ if (!isset($_GET['id'])) {
                     <div class="card-header">
                         <h4>
                             Editar Movimentações <i class="bi bi-person-fill-gear"></i>
-                            <a href="pasta_mes.php?id=<?php echo $movimentacao['month_id'] ?>" class="btn btn-danger float-end">Voltar</a>
+                            <a href="pasta_mes.php?id_meses=<?php echo $movimentacao['month_id'] ?>" class="btn btn-danger float-end">Voltar</a>
                         </h4>
                     </div>
                     <div class="card-body">

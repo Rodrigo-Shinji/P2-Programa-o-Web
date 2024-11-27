@@ -78,7 +78,7 @@ if (isset($_POST['deletar'])) {
     mysqli_query($conn, $sql);
 
     if (mysqli_affected_rows($conn) > 0) {
-        $_SESSION['message'] = "O {$mesId} foi deletado!";
+        $_SESSION['message'] = "Mês deletado com sucesso!";
         $_SESSION['type'] = 'success';
     } else {
         $_SESSION['message'] = "Não foi possível excluir";
