@@ -1,6 +1,9 @@
 Sistema Financeiro - Gerenciamento de Despesas
 Este projeto é um sistema de gerenciamento financeiro simples, desenvolvido com PHP, MySQLi, CSS, HTML, JavaScript e Bootstrap 5. O objetivo é permitir aos usuários gerenciar suas receitas e despesas, categorizando transações e visualizando relatórios financeiros.
 
+Tutorial de como usar:
+
+
 Tecnologias Utilizadas
 PHP: Linguagem de programação usada para desenvolver a lógica do servidor.
 MySQLi: Biblioteca para interagir com o banco de dados MySQL.
