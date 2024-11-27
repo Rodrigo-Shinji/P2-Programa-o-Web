@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 15/11/2024 às 02:11
+-- Tempo de geração: 27/11/2024 às 04:00
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -32,6 +32,15 @@ CREATE TABLE `categorias` (
   `nome` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `categorias`
+--
+
+INSERT INTO `categorias` (`id_categoria`, `nome`) VALUES
+(1, 'Alimentação'),
+(4, 'Carro'),
+(6, 'luz');
+
 -- --------------------------------------------------------
 
 --
@@ -43,6 +52,20 @@ CREATE TABLE `meses` (
   `nome` varchar(15) NOT NULL,
   `ano` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `meses`
+--
+
+INSERT INTO `meses` (`id_meses`, `nome`, `ano`) VALUES
+(1, 'janeiro', 0),
+(2, 'Janeiro', 2016),
+(3, 'Janeiro', 2016),
+(4, 'Janeiro', 2024),
+(5, 'Maio', 2016),
+(6, 'Maio', 2024),
+(7, 'Janeiro', 2020),
+(8, 'Junho', 2016);
 
 -- --------------------------------------------------------
 
@@ -56,9 +79,21 @@ CREATE TABLE `movimentacoes` (
   `movement_type` varchar(10) NOT NULL,
   `description` varchar(255) NOT NULL,
   `amount` decimal(15,2) NOT NULL,
-  `category_id` int(11) DEFAULT NULL,
-  `month_id` int(11) DEFAULT NULL
+  `category_id` int(11) NOT NULL,
+  `month_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `movimentacoes`
+--
+
+INSERT INTO `movimentacoes` (`id_movimentacoes`, `movement_date`, `movement_type`, `description`, `amount`, `category_id`, `month_id`) VALUES
+(1, '0000-00-00', 'Entrada', 'dsadas', 25.00, 1, 1),
+(5, '2024-11-15', 'Saída', 'cattt', 55.00, 1, 1),
+(6, '2024-11-14', 'Saída', 'estevão', 55.00, 4, 1),
+(7, '2024-11-21', 'Saída', 'cattt', 20.00, 4, 4),
+(8, '2024-11-10', 'Entrada', 'cattt', 10000.00, 1, 7),
+(9, '2024-11-14', 'Entrada', 'cattt', 156.16, 4, 1);
 
 --
 -- Índices para tabelas despejadas
@@ -92,19 +127,19 @@ ALTER TABLE `movimentacoes`
 -- AUTO_INCREMENT de tabela `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `meses`
 --
 ALTER TABLE `meses`
-  MODIFY `id_meses` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_meses` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `movimentacoes`
 --
 ALTER TABLE `movimentacoes`
-  MODIFY `id_movimentacoes` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_movimentacoes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Restrições para tabelas despejadas
